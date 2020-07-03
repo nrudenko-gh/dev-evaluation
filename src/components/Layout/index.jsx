@@ -1,8 +1,9 @@
 import React from 'react';
-import { Container } from '@material-ui/core';
+
+import styles from './Layout.module.css';
 
 const Layout = ({ children }) => {
-  return <Container maxWidth="sm">{children}</Container>;
+  return <section className={styles.layout}>{children}</section>;
 };
 
 export default Layout;

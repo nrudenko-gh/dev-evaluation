@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Paper, TextField } from '@material-ui/core';
+import { Button, Paper, TextField, Divider } from '@material-ui/core';
 import get from 'lodash/fp/get';
 
+import styles from './Form.module.css';
 import { getAsteroidData, getRandomAsteroidData } from '../../api';
 
 const Form = () => {
@@ -42,9 +43,13 @@ const Form = () => {
   };
 
   return (
-    <Paper elevation={1}>
-      <form className="form" onSubmit={handleSubmit}>
-        <TextField value={inputValue} onInput={handleInput} />
+    <Paper elevation={1} display="flex" className={styles.paper}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <TextField
+          value={inputValue}
+          onInput={handleInput}
+          placeholder="Enter Asteroid ID"
+        />
 
         <Button
           type="submit"
@@ -52,21 +57,24 @@ const Form = () => {
           color="primary"
           onSubmit={handleSubmit}
           disabled={isSubmitDisabled}
+          className={styles.submitBtn}
         >
           Submit
         </Button>
       </form>
 
-      <br />
+      <Divider className={styles.divider} />
 
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={handleGetRandomAsteroid}
-      >
-        Random Asteroid
-      </Button>
+      <div className={styles.randomBtn}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={handleGetRandomAsteroid}
+        >
+          Random Asteroid
+        </Button>
+      </div>
     </Paper>
   );
 };

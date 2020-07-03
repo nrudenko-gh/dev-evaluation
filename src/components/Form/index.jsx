@@ -12,6 +12,17 @@ const Form = () => {
   const [inputValue, setInputValue] = useState('');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
+  const getAsteroid = async (asteroidId) => {
+    const { status, data } = await getAsteroidData(asteroidId);
+    console.log(status, data);
+
+    if (status === 200) redirectToDetails(data);
+  };
+
+  const redirectToDetails = (asteroidData) => {
+    history.push('/details', { data: asteroidData });
+  };
+
   const handleInput = (e) => {
     const value = get('target.value', e);
     if (value) setIsSubmitDisabled(false);
@@ -20,10 +31,7 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { status, data } = await getAsteroidData(inputValue);
-    if (status === 200) {
-      redirectToDetails(data);
-    }
+    getAsteroid(inputValue);
   };
 
   const handleGetRandomAsteroid = async (e) => {
@@ -33,13 +41,8 @@ const Form = () => {
     const randomAsteroidIndex = Math.floor(
       Math.random() * Math.floor(near_earth_objects.length)
     );
-    const randomAsteroidData = near_earth_objects[randomAsteroidIndex];
-
-    redirectToDetails(randomAsteroidData);
-  };
-
-  const redirectToDetails = (asteroidData) => {
-    history.push('/details', { data: asteroidData });
+    const { id } = near_earth_objects[randomAsteroidIndex];
+    if (id) getAsteroid(id);
   };
 
   return (

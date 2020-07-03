@@ -23,7 +23,11 @@ const Form = () => {
 
   const handleInput = (e) => {
     const value = get('target.value', e);
-    if (value) setIsSubmitDisabled(false);
+    if (value) {
+      setIsSubmitDisabled(false);
+    } else {
+      setIsSubmitDisabled(true);
+    }
     setInputValue(value);
   };
 

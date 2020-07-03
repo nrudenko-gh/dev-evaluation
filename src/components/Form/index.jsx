@@ -14,8 +14,6 @@ const Form = () => {
 
   const getAsteroid = async (asteroidId) => {
     const { status, data } = await getAsteroidData(asteroidId);
-    console.log(status, data);
-
     if (status === 200) redirectToDetails(data);
   };
 

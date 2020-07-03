@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Button, Paper, TextField } from '@material-ui/core';
 import get from 'lodash/fp/get';
 
-import { getAsteroidData } from '../../api';
+import { getAsteroidData, getRandomAsteroidData } from '../../api';
 
 const Form = () => {
+  const history = useHistory();
+
   const [inputValue, setInputValue] = useState('');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
@@ -16,7 +19,26 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await getAsteroidData(inputValue);
+    const { status, data } = await getAsteroidData(inputValue);
+    if (status === 200) {
+      redirectToDetails(data);
+    }
+  };
+
+  const handleGetRandomAsteroid = async (e) => {
+    e.preventDefault();
+    const { data } = await getRandomAsteroidData();
+    const { near_earth_objects } = data;
+    const randomAsteroidIndex = Math.floor(
+      Math.random() * Math.floor(near_earth_objects.length)
+    );
+    const randomAsteroidData = near_earth_objects[randomAsteroidIndex];
+
+    redirectToDetails(randomAsteroidData);
+  };
+
+  const redirectToDetails = (asteroidData) => {
+    history.push('/details', { data: asteroidData });
   };
 
   return (
@@ -37,7 +59,12 @@ const Form = () => {
 
       <br />
 
-      <Button variant="contained" color="primary">
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={handleGetRandomAsteroid}
+      >
         Random Asteroid
       </Button>
     </Paper>

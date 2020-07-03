@@ -7,4 +7,8 @@ const getAsteroidData = async (asteroidId) => {
   return axios.get(`${BASE_URL}${asteroidId}?api_key=${API_KEY}`);
 };
 
-export { getAsteroidData };
+const getRandomAsteroidData = async () => {
+  return axios.get(`${BASE_URL}browse?api_key=${API_KEY}`);
+};
+
+export { getAsteroidData, getRandomAsteroidData };
